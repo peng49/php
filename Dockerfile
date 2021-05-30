@@ -5,7 +5,17 @@ RUN apt-get update && apt-get install -y \
         ca-certificates \
         lsb-release \
 && echo "deb http://nginx.org/packages/debian `lsb_release -cs` nginx" | tee /etc/apt/sources.list.d/nginx.list \
-&& curl -o /tmp/nginx_signing.key https://nginx.org/keys/nginx_signing.key \
-&& gpg --dry-run --quiet --import --import-options import-show /tmp/nginx_signing.key \
-&& mv /tmp/nginx_signing.key /etc/apt/trusted.gpg.d/nginx_signing.asc \
-&& apt-get update && apt-get install nginx
+&& \
+        NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
+        found=''; \
+        for server in \
+                ha.pool.sks-keyservers.net \
+                hkp://keyserver.ubuntu.com:80 \
+                hkp://p80.pool.sks-keyservers.net:80 \
+                pgp.mit.edu \
+        ; do \
+                echo "Fetching GPG key $NGINX_GPGKEY from $server"; \
+        apt-key adv --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$NGINX_GPGKEY" && found=yes && break; \
+    done; \
+    test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
+apt-get update && apt-get install nginx
