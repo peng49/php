@@ -21,3 +21,5 @@ RUN apt-get update && apt-get install -y \
 apt-get update && apt-get install nginx \
 && docker-php-ext-install pdo_mysql
 COPY ./config/nginx /etc/nginx
+
+CMD ["nginx" ]
