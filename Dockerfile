@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     done; \
     test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
 apt-get update && apt-get install nginx \
-&& docker-php-ext-install pdo_mysql
+&& pecl install redis-5.1.1 && docker-php-ext-enable redis && docker-php-ext-install pdo_mysql
 COPY ./config/nginx /etc/nginx
 
 CMD ["nginx" ]
