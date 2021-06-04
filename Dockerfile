@@ -22,4 +22,4 @@ apt-get update && apt-get install nginx \
 && pecl install redis-5.1.1 && docker-php-ext-enable redis && docker-php-ext-install pdo_mysql
 COPY ./config/nginx /etc/nginx
 
-CMD ["nginx" ]
+ENTRYPOINT nginx && php-fpm
