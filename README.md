@@ -1,2 +1,4 @@
-# php-nginx-image
-php + nginx docker 镜像
+# php开发镜像
+php + nginx
+
+

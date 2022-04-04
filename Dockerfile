@@ -1,4 +1,5 @@
 FROM php:7.4-fpm
+
 RUN apt-get update && apt-get install -y \
         curl \
         gnupg2 \
@@ -20,6 +21,13 @@ RUN apt-get update && apt-get install -y \
     test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
 apt-get update && apt-get install nginx \
 && pecl install redis-5.1.1 && docker-php-ext-enable redis && docker-php-ext-install pdo_mysql
+
 COPY ./config/nginx /etc/nginx
+
+EXPOSE 80
+VOLUME /var/www/html
+VOLUME /etc/nginx
+
+ENV TZ="Asia/Shanghai"
 
 ENTRYPOINT nginx && php-fpm
