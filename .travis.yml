@@ -28,7 +28,7 @@ install:
 
 before_script:
   # Set baseimage.
-  - docker build -t peng49/php:latest
+  - docker build -t peng49/php:latest .
 
 script:
   - docker push peng49/php:latest
