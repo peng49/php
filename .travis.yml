@@ -28,16 +28,16 @@ install:
 
 before_script:
   # Set baseimage.
-  - echo "before script"
+  - docker build -t peng49/php:latest
 
 script:
-  - echo "build"
+  - docker push peng49/php:latest
 
 before_deploy:
-  - echo "prepare deply"
+  - echo "prepare deploy"
 
 deploy:
   provider: script
   on:
     all_branches: true
-  script: echo "deply"
+  script: echo "deploy"
