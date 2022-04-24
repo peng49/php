@@ -22,7 +22,20 @@ RUN apt-get update && apt-get install -y \
 apt-get update && apt-get install nginx \
 && pecl install redis-5.1.1 && docker-php-ext-enable redis && docker-php-ext-install pdo_mysql
 
+RUN apt-get install -y librabbitmq-dev libldb-dev libldap2-dev && \
+    pecl install amqp-1.11.0 && \
+    docker-php-ext-enable amqp && \
+    docker-php-ext-install ldap
+
+RUN apt-get -y install git libzip-dev unzip && \
+    docker-php-ext-install zip && \
+    php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" && \
+    php composer-setup.php && \
+    mv composer.phar /usr/local/bin/composer && \
+    chmod +x /usr/local/bin/composer
+
 COPY ./config/nginx /etc/nginx
+
 
 EXPOSE 80
 VOLUME /var/www/html

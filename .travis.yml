@@ -1,0 +1,43 @@
+language: bash
+
+services:
+  - docker
+env:
+  global:
+    - NAME="peng49/php"
+    - VERSION="${TRAVIS_TAG}"
+
+if: branch = master OR tag IS present
+
+addons:
+  apt:
+    # The docker manifest command was added in docker-ee version 18.x
+    # So update our current installation and we also have to enable the experimental features.
+    sources:
+      - sourceline: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        key_url: "https://download.docker.com/linux/ubuntu/gpg"
+    packages:
+      - docker-ce
+
+before_install:
+  - docker --version
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+install:
+  - echo "install"
+
+before_script:
+  # Set baseimage.
+  - echo "before script"
+
+script:
+  - echo "build"
+
+before_deploy:
+  - echo "prepare deply"
+
+deploy:
+  provider: script
+  on:
+    all_branches: true
+  script: echo "deply"
