@@ -27,13 +27,6 @@ RUN apt-get install -y librabbitmq-dev libldb-dev libldap2-dev && \
     docker-php-ext-enable amqp && \
     docker-php-ext-install ldap
 
-RUN apt-get -y install git libzip-dev unzip && \
-    docker-php-ext-install zip && \
-    php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" && \
-    php composer-setup.php && \
-    mv composer.phar /usr/local/bin/composer && \
-    chmod +x /usr/local/bin/composer
-
 COPY setting.sh setting.sh
 
 # set nginx
