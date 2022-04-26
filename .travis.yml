@@ -5,9 +5,11 @@ services:
 env:
   global:
     - NAME="peng49/php"
+    - TAG="${TRAVIS_BRANCH}"
     - VERSION="${TRAVIS_TAG}"
 
-if: branch = master OR tag IS present
+
+if: branch = pro OR branch = dev OR branch = ops OR tag IS present
 
 addons:
   apt:
@@ -29,9 +31,11 @@ install:
 before_script:
   # Set baseimage.
   - docker build -t peng49/php:latest .
+  - docker tag peng49/php:latest peng49/php:${TAG}
 
 script:
   - docker push peng49/php:latest
+  - docker push peng49/php:${TAG}
 
 before_deploy:
   - echo "prepare deploy"
