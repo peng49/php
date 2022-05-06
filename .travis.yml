@@ -8,9 +8,9 @@ env:
 #    - TAG="${TRAVIS_BRANCH}"
     - TAG="${TRAVIS_TAG}"
 
-
+# https://docs.travis-ci.com/user/conditions-v1
 #if: branch = pro OR branch = dev OR branch = ops OR tag IS present
-if: tag IS present
+if: tag IS present AND tag =~ /^(dev|pro)/
 
 addons:
   apt:
@@ -27,16 +27,16 @@ before_install:
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
 install:
-  - echo "install"
+  - echo "install" $TAG
 
 before_script:
   # Set baseimage.
   - docker build -t peng49/php:latest .
   - docker tag peng49/php:latest peng49/php:${TAG}
 
-script:
-  - docker push peng49/php:latest
-  - docker push peng49/php:${TAG}
+#script:
+#  - docker push peng49/php:latest
+#  - docker push peng49/php:${TAG}
 
 before_deploy:
   - echo "prepare deploy"
