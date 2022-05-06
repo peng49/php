@@ -7,6 +7,7 @@ env:
     - NAME="peng49/php"
 #    - BRANCH="${TRAVIS_BRANCH}"
     - TAG="${TRAVIS_TAG/-*/}"
+    - DOCKERFILE=Dockerfile
     - VERSION="v${TRAVIS_TAG/*-/}"
 
 # https://docs.travis-ci.com/user/conditions-v1
@@ -33,7 +34,8 @@ install:
 
 before_script:
   # Set baseimage.
-  - docker build -t peng49/php:latest .
+  - if [ -f "./${DOCKERFILE}.${TAG}" ];then DOCKERFILE=${DOCKERFILE}.${TAG} fi
+  - docker build -t peng49/php:latest ./${DOCKERFILE}
   - docker tag peng49/php:latest peng49/php:${TAG}
 
 #script:
