@@ -5,8 +5,9 @@ services:
 env:
   global:
     - NAME="peng49/php"
-#    - TAG="${TRAVIS_BRANCH}"
-    - TAG="${TRAVIS_TAG}"
+#    - BRANCH="${TRAVIS_BRANCH}"
+    - TAG="${TRAVIS_TAG/-*/}"
+    - VERSION="v${TRAVIS_TAG/*-/}"
 
 # https://docs.travis-ci.com/user/conditions-v1
 #if: branch = pro OR branch = dev OR branch = ops OR tag IS present
@@ -23,6 +24,7 @@ addons:
       - docker-ce
 
 before_install:
+  - echo ${VERSION} ${TAG}
   - docker --version
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
