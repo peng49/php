@@ -38,9 +38,9 @@ before_script:
   - docker build -t peng49/php:latest -f ${DOCKERFILE} .
   - docker tag peng49/php:latest peng49/php:${TAG}
 
-#script:
-#  - docker push peng49/php:latest
-#  - docker push peng49/php:${TAG}
+script:
+  - docker push peng49/php:latest
+  - docker push peng49/php:${TAG}
 
 before_deploy:
   - echo "prepare deploy"
