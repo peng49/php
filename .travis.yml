@@ -35,7 +35,7 @@ install:
 before_script:
   # Set baseimage.
   - if [ -f "./${DOCKERFILE}.${TAG}" ];then DOCKERFILE=${DOCKERFILE}.${TAG}; fi
-  - docker build -t peng49/php:latest ./${DOCKERFILE}
+  - docker build -t peng49/php:latest -f ${DOCKERFILE} .
   - docker tag peng49/php:latest peng49/php:${TAG}
 
 #script:
