@@ -5,11 +5,12 @@ services:
 env:
   global:
     - NAME="peng49/php"
-    - TAG="${TRAVIS_BRANCH}"
-    - VERSION="${TRAVIS_TAG}"
+#    - TAG="${TRAVIS_BRANCH}"
+    - TAG="${TRAVIS_TAG}"
 
 
-if: branch = pro OR branch = dev OR branch = ops OR tag IS present
+#if: branch = pro OR branch = dev OR branch = ops OR tag IS present
+if: tag IS present
 
 addons:
   apt:
@@ -44,4 +45,4 @@ deploy:
   provider: script
   on:
     all_branches: true
-  script: echo "deploy"
+  script: bash -c 'echo "deploy"'
