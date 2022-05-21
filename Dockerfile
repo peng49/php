@@ -30,7 +30,7 @@ RUN apt-get install -y librabbitmq-dev libldb-dev libldap2-dev && \
 COPY setting.sh setting.sh
 
 # set nginx
-RUN bash setting.sh
+RUN sed -i 's/\r//g' setting.sh && bash setting.sh
 
 EXPOSE 80
 VOLUME /var/www/html
