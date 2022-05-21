@@ -38,7 +38,7 @@ RUN apt-get -y install git libzip-dev unzip && \
 COPY setting.sh setting.sh
 
 # set nginx
-RUN bash setting.sh
+RUN sed -i 's/\r//g' setting.sh && bash setting.sh
 
 EXPOSE 80
 VOLUME /var/www/html

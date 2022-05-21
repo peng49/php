@@ -48,9 +48,6 @@ server {
     if (\$http_x_forwarded_for != "" ) {
         set \$client_ip "\$http_x_forwarded_for";
     }
-    if (\$http_user_agent = "kube-probe/1.11") {
-        access_log off;
-    }
 
     root /var/www/html/public/;
 
@@ -59,6 +56,9 @@ server {
     client_max_body_size    0;
 
     location / {
+        if (\$http_user_agent = "kube-probe/1.11") {
+            access_log off;
+        }
         try_files \$uri \$uri/ /index.php?\$query_string;
     }
 
