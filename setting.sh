@@ -90,6 +90,7 @@ server {
     location ~ .*\.(js|css)$ {
         expires 12h;
         access_log  off;
+        charset utf-8;
     }
 
     location ~ /\.ht {
