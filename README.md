@@ -1,12 +1,16 @@
 # php开发镜像
-|分支|说明|
+|文件|说明|
 |:---:|:---:|
-|dev|开发环境|
-|pro|生成环境,移除了开发环境的 git 和 composer|
+|Dockerfile|生产环境|
+|Dockerfile.dev|开发环境|
+|Dockerfile.gocron| 生产环境+gocron-node |
 
-## 使用示例
+## 构建Docker镜像
+```shell
+docker build -f Dockerfile.gocron -t peng49/php:gocron .
+```
 启动一个laravel项目
 
 ```shell
-docker run -it -d -p 8080:80 -v F://laravel:/var/www/html peng49/php:dev 
+docker run -it -d -p 8080:80 -p 5921:5921 -v F://laravel:/var/www/html peng49/php:gocron 
 ```
