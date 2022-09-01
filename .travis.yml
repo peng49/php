@@ -1,5 +1,7 @@
 language: bash
 
+# 发布所有镜像
+
 services:
   - docker
 env:
@@ -12,7 +14,8 @@ env:
 
 # https://docs.travis-ci.com/user/conditions-v1
 #if: branch = pro OR branch = dev OR branch = ops OR tag IS present
-if: tag IS present AND tag =~ /^(dev|pro)/
+#if: tag IS present AND tag =~ /^(dev|pro)/
+if: branch = master
 
 addons:
   apt:
@@ -25,7 +28,6 @@ addons:
       - docker-ce
 
 before_install:
-  - echo ${VERSION} ${TAG}
   - docker --version
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
@@ -33,14 +35,16 @@ install:
   - echo "install" $TAG
 
 before_script:
-  # Set baseimage.
-  - if [ -f "./${DOCKERFILE}.${TAG}" ];then DOCKERFILE=${DOCKERFILE}.${TAG}; fi
-  - docker build -t peng49/php:latest -f ${DOCKERFILE} .
-  - docker tag peng49/php:latest peng49/php:${TAG}
+  - docker build -t peng49/php:latest -f Dockerfile .
+  - docker tag peng49/php:latest peng49/php:pro
+  - docker build -t peng49/php:dev -f Dockerfile.dev .
+  - docker build -t peng49/php:gocron -f Dockerfile.gocron .
 
 script:
   - docker push peng49/php:latest
-  - docker push peng49/php:${TAG}
+  - docker push peng49/php:pro
+  - docker push peng49/php:dev
+  - docker push peng49/php:gocron
 
 before_deploy:
   - echo "prepare deploy"

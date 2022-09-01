@@ -30,11 +30,13 @@ apt-get update && apt-get install nginx \
 
 # run shell script
 RUN sed -i 's/\r//g' /docker/setting.sh && bash /docker/setting.sh && \
-     cp /docker/entrypoint.sh /entrypoint.sh && sed -i 's/\r//g' /entrypoint.sh
+      cp /docker/entrypoint.sh /entrypoint.sh && sed -i 's/\r//g' /entrypoint.sh && \
+      curl -L https://github.com/peng49/gocron/releases/download/v2.0.0/gocron-node-v2.0.0-linux-amd64.tar.gz -o gocron-node.tar.gz && \
+      tar -xzvf gocron-node.tar.gz && mkdir -p /app && cp gocron-node-linux-amd64/gocron-node /app/
 
-EXPOSE 80
-VOLUME /var/www/html
-VOLUME /etc/nginx
+
+EXPOSE 80 5921
+VOLUME /var/www/html /etc/nginx
 
 ENV TZ="Asia/Shanghai"
 
