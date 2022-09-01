@@ -32,7 +32,8 @@ before_install:
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
 install:
-  - echo "install" $TAG
+  # entrypoint.sh 添加可执行权限
+  - chmod +x entrypoint.sh
 
 before_script:
   - docker build -t peng49/php:latest -f Dockerfile .
