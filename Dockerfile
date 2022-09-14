@@ -26,7 +26,9 @@ apt-get update && apt-get install nginx \
     apt-get install -y librabbitmq-dev libldb-dev libldap2-dev && \
     pecl install amqp-1.11.0 && \
     docker-php-ext-enable amqp && \
-    docker-php-ext-install ldap
+    docker-php-ext-install ldap && \
+    cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
+    sed -i 's/;date.timezone =/date.timezone = Asia\/Shanghai/' /usr/local/etc/php/php.ini
 
 # run shell script
 RUN sed -i 's/\r//g' /docker/setting.sh && bash /docker/setting.sh && \
