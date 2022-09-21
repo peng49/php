@@ -27,6 +27,8 @@ apt-get update && apt-get install nginx \
     pecl install amqp-1.11.0 && \
     docker-php-ext-enable amqp && \
     docker-php-ext-install ldap && \
+    pecl install mongodb && \
+    docker-php-ext-enable mongodb && \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     sed -i 's/;date.timezone =/date.timezone = Asia\/Shanghai/' /usr/local/etc/php/php.ini
 
