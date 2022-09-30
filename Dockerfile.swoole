@@ -1,0 +1,15 @@
+FROM phpswoole/swoole:4.8.12-php7.4-alpine
+
+RUN apk update &&  \
+    apk add --no-cache $PHPIZE_DEPS rabbitmq-c-dev openldap-dev && \
+    cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
+    sed -i 's/;date.timezone =/date.timezone = Asia\/Shanghai/' /usr/local/etc/php/php.ini && \
+    pecl install amqp-1.11.0 mongodb && \
+    docker-php-ext-install ldap && \
+    docker-php-ext-enable pdo_mysql amqp mongodb
+
+EXPOSE 80
+
+VOLUME /var/www/html
+
+ENV TZ="Asia/Shanghai"
