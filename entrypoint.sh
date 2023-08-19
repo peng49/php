@@ -11,4 +11,6 @@ then
   nohup /app/gocron-node -allow-root > /var/log/gocron-node.log 2>&1 &
 fi
 
+chown -R apache:root /var/www/html
+
 tail -f /var/log/nginx/access.log
