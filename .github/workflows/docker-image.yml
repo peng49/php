@@ -7,12 +7,69 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: |
+        docker build . --file Dockerfile --tag peng49/php-image:lastet
+
+    - name: Deploy image
+      env:
+        username: ${{secrets.DOCKER_USER}}
+        password: ${{secrets.DOCKER_PASS}}
+      run: |
+        echo "${password}" | docker login -u "${username}" --password-stdin
+        docker push peng49/php-image:lastet
+
+  dev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: |
+          docker build . --file Dockerfile.dev --tag peng49/php-image:dev
+
+      - name: Deploy image
+        env:
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_PASS}}
+        run: |
+          echo "${password}" | docker login -u "${username}" --password-stdin
+          docker push peng49/php-image:dev
+
+  gocron:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        env:
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_PASS}}
+        run: |
+          docker build . --file Dockerfile.gocron --tag peng49/php-image:gocron
+
+      - name: Deploy image
+        env:
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_PASS}}
+        run: |
+          echo "${password}" | docker login -u "${username}" --password-stdin
+          docker push peng49/php-image:gocron
+
+  swoole:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: |
+          docker build . --file Dockerfile.swoole --tag peng49/php-image:swoole
+
+      - name: Deploy image
+        env:
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_PASS}}
+        run: |
+          echo "${password}" | docker login -u "${username}" --password-stdin
+          docker push peng49/php-image:swoole
